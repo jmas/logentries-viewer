@@ -99,7 +99,7 @@ app.model({
 const renderLog = (log) => {
     if (log.type === 'PAGE') {
         return <div className={'Logs-logPage'}>
-            <p><strong>URL:</strong> <a href={baseUrl + log.url} target="_blank">{log.url}</a></p>
+            <p><strong>URL:</strong> <a href={baseUrl + log.url} target="_blank">{baseUrl + log.url}</a></p>
             <p><strong>Referrer:</strong> <a href={log.referrer}>{log.referrer}</a></p>
             <details>
                 <p><strong>browser.cookie_enabled:</strong> {log['browser.cookie_enabled']}</p>
