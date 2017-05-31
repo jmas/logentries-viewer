@@ -123,7 +123,7 @@ const renderLog = (log) => {
             <p><strong>Error:</strong> <code dangerouslySetInnerHTML={{__html: log.error}} style={{color: 'red'}}/></p>
             <p><strong>Line:</strong> {log.line}</p>
             <p><strong>Location:</strong> {log.location ?
-                <a href={log.location} target="_blank">{log.location}</a> : '-'}</p>
+                <a href={log.location} target="_blank">{log.location}</a> : 'n/a'}</p>
         </div>;
     }
     return null;
