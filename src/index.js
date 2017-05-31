@@ -49,12 +49,12 @@ app.model({
             const from = yield select(state => state.app.filter.from);
             const to = yield select(state => state.app.filter.to);
             const {links} = yield fetch(`https://rest.logentries.com/query/logs/${logId}/?from=${from}&to=${to}`, {
-                headers: requestHeaders
+                headers: requestHeaders,
             }).then(res => res.json());
             if (links) {
                 const nextUrl = links[0].href;
                 const {events} = yield fetch(nextUrl, {
-                    headers: requestHeaders
+                    headers: requestHeaders,
                 }).then(res => res.json());
                 yield put({
                     type: 'setLogs',
@@ -74,14 +74,14 @@ app.model({
     reducers: {
         getLogs(state, {payload}) {
             return {
-                ...state
+                ...state,
             };
         },
         setLogs(state, {payload}) {
             return {
                 ...state,
                 logs: payload,
-                logsFormatted: convertToKeysArray(aggregateByKey(payload.map(item => parseLog(item.message)), 'id'))
+                logsFormatted: convertToKeysArray(aggregateByKey(payload.map(item => parseLog(item.message)), 'id')),
             };
         },
         changeFilter(state, {payload}) {
@@ -90,7 +90,7 @@ app.model({
                 filter: {
                     from: payload.date[0].format('x'),
                     to: payload.date[1].format('x'),
-                }
+                },
             };
         }
     },
