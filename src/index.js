@@ -4,18 +4,20 @@ import dva, {connect} from 'dva';
 import {Router, Route} from 'dva/router';
 import fetch from 'dva/fetch';
 import {DatePicker} from 'antd';
-const {RangePicker} = DatePicker;
 import createLogger from 'dva-logger';
-import './index.html';
-import './index.css';
 import moment from 'moment';
-import {getLS, parseLog, aggregateByKey, convertToKeysArray} from './utils';
+import {getLS, setLS, parseLog, aggregateByKey, convertToKeysArray} from './utils';
 import {LocaleProvider} from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
+import './index.html';
+import './index.css';
 
+const {RangePicker} = DatePicker;
 const baseUrl = getLS('baseUrl', true);
 const apiKey = getLS('apiKey', true);
 const logId = getLS('logId', true);
+const from = getLS('from', false, moment().add(-1, 'days').format('x'));
+const to = getLS('to', false, moment().format('x'));
 const requestHeaders = {
     'x-api-key': apiKey,
 };
@@ -33,8 +35,8 @@ app.model({
         logs: [],
         logsFormatted: [],
         filter: {
-            from: moment().add(-1, 'days').format('x'),
-            to: moment().format('x'),
+            from,
+            to,
         }
     },
     subscriptions: {
@@ -61,6 +63,9 @@ app.model({
             }
         },
         *changeFilter(action, {put, call}) {
+            // console.log(action);
+            setLS('from', action.payload.date[0].format('x'));
+            setLS('to', action.payload.date[1].format('x'));
             yield put({
                 type: 'getLogs'
             });
@@ -135,10 +140,10 @@ const HomePage = connect(({app}) => ({
         />
     </div>
     <div className="Logs-container">
-        {props.app.logsFormatted.map((logItem, k) => <div className={'Logs-logItem'} key={k}>
+        {props.app.logsFormatted.length > 0 ? props.app.logsFormatted.map((logItem, k) => <div className={'Logs-logItem'} key={k}>
             <div className={'Logs-id'}><strong>ID: {logItem.key}</strong></div>
             {logItem.items.map((item, k) => <div className={'Logs-logWrap'} key={k}>{renderLog(item)}</div>)}
-        </div>)}
+        </div>): <div className={'Logs-empty'}>No data.</div>}
     </div>
 </div>);
 
