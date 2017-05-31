@@ -13,7 +13,7 @@ import {getLS,parseLog,aggregateByKey,convertToKeysArray} from './utils';
 import {LocaleProvider} from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
-const baseUrl = 'http://tools.brightlocal.com';
+const baseUrl = '';
 const apiKey = getLS('apiKey', true);
 const logId = getLS('logId', true);
 const requestHeaders = {
