@@ -13,7 +13,7 @@ import {getLS, parseLog, aggregateByKey, convertToKeysArray} from './utils';
 import {LocaleProvider} from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
-const baseUrl = '';
+const baseUrl = getLS('baseUrl', true);
 const apiKey = getLS('apiKey', true);
 const logId = getLS('logId', true);
 const requestHeaders = {
@@ -91,9 +91,9 @@ app.model({
     },
 });
 
-const renderLog = (log, key) => {
+const renderLog = (log) => {
     if (log.type === 'PAGE') {
-        return <div className={'Logs-logPage'} key={key}>
+        return <div className={'Logs-logPage'}>
             <p><strong>URL:</strong> <a href={baseUrl + log.url} target="_blank">{log.url}</a></p>
             <p><strong>Referrer:</strong> <a href={log.referrer}>{log.referrer}</a></p>
             <details>
@@ -114,7 +114,7 @@ const renderLog = (log, key) => {
             </details>
         </div>;
     } else if (log.type === 'ERROR') {
-        return <div className={'Logs-logError'} key={key}>
+        return <div className={'Logs-logError'}>
             <p><strong>Error:</strong> <code dangerouslySetInnerHTML={{__html: log.error}} style={{color: 'red'}}/></p>
             <p><strong>Line:</strong> {log.line}</p>
             <p><strong>Location:</strong> {log.location ?
@@ -137,7 +137,7 @@ const HomePage = connect(({app}) => ({
     <div className="Logs-container">
         {props.app.logsFormatted.map((logItem, k) => <div className={'Logs-logItem'} key={k}>
             <strong>ID: {logItem.key}</strong>
-            {logItem.items.map((item, k) => renderLog(item, k))}
+            {logItem.items.map((item, k) => <div className={'Logs-logWrap'} key={k}>{renderLog(item)}</div>)}
         </div>)}
     </div>
 </div>);
