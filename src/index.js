@@ -1,15 +1,15 @@
 import React from 'react';
 import {render} from 'react-dom';
-import dva, { connect } from 'dva';
-import { Router, Route } from 'dva/router';
+import dva, {connect} from 'dva';
+import {Router, Route} from 'dva/router';
 import fetch from 'dva/fetch';
-import { DatePicker } from 'antd';
-const { RangePicker } = DatePicker;
+import {DatePicker} from 'antd';
+const {RangePicker} = DatePicker;
 import createLogger from 'dva-logger';
 import './index.html';
 import './index.css';
 import moment from 'moment';
-import {getLS,parseLog,aggregateByKey,convertToKeysArray} from './utils';
+import {getLS, parseLog, aggregateByKey, convertToKeysArray} from './utils';
 import {LocaleProvider} from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
@@ -38,20 +38,20 @@ app.model({
         }
     },
     subscriptions: {
-        setup({ dispatch, history }) {
-            dispatch({ type: 'getLogs' });
+        setup({dispatch, history}) {
+            dispatch({type: 'getLogs'});
         },
     },
     effects: {
         *getLogs(action, {put, call, select}) {
             const from = yield select(state => state.app.filter.from);
             const to = yield select(state => state.app.filter.to);
-            const { links } = yield fetch(`https://rest.logentries.com/query/logs/${logId}/?from=${from}&to=${to}`, {
+            const {links} = yield fetch(`https://rest.logentries.com/query/logs/${logId}/?from=${from}&to=${to}`, {
                 headers: requestHeaders
             }).then(res => res.json());
             if (links) {
                 const nextUrl = links[0].href;
-                const { events } = yield fetch(nextUrl, {
+                const {events} = yield fetch(nextUrl, {
                     headers: requestHeaders
                 }).then(res => res.json());
                 yield put({
@@ -67,19 +67,19 @@ app.model({
         }
     },
     reducers: {
-        getLogs(state, { payload }) {
+        getLogs(state, {payload}) {
             return {
                 ...state
             };
         },
-        setLogs(state, { payload }) {
+        setLogs(state, {payload}) {
             return {
                 ...state,
                 logs: payload,
                 logsFormatted: convertToKeysArray(aggregateByKey(payload.map(item => parseLog(item.message)), 'id'))
             };
         },
-        changeFilter(state, { payload }) {
+        changeFilter(state, {payload}) {
             return {
                 ...state,
                 filter: {
@@ -115,21 +115,22 @@ const renderLog = (log, key) => {
         </div>;
     } else if (log.type === 'ERROR') {
         return <div className={'Logs-logError'} key={key}>
-            <p><strong>Error:</strong> <code dangerouslySetInnerHTML={{__html: log.error}} style={{color: 'red'}} /></p>
+            <p><strong>Error:</strong> <code dangerouslySetInnerHTML={{__html: log.error}} style={{color: 'red'}}/></p>
             <p><strong>Line:</strong> {log.line}</p>
-            <p><strong>Location:</strong> {log.location ? <a href={log.location} target="_blank">{log.location}</a>: '-'}</p>
+            <p><strong>Location:</strong> {log.location ?
+                <a href={log.location} target="_blank">{log.location}</a> : '-'}</p>
         </div>;
     }
     return null;
 };
 
 // 3. Router
-const HomePage = connect(({ app }) => ({
+const HomePage = connect(({app}) => ({
     app,
 }))((props) => <div className="App-container">
     <div className="App-filter">
         <RangePicker
-            onChange={(date, dateString) => props.dispatch({type: 'app/changeFilter', payload: { date, dateString }})}
+            onChange={(date, dateString) => props.dispatch({type: 'app/changeFilter', payload: {date, dateString}})}
             value={ [moment(props.app.filter.from, 'x'), moment(props.app.filter.to, 'x')] }
         />
     </div>
@@ -141,10 +142,10 @@ const HomePage = connect(({ app }) => ({
     </div>
 </div>);
 
-app.router(({ history }) =>
-  <Router history={history}>
-    <Route path="/" component={HomePage} />
-  </Router>
+app.router(({history}) =>
+    <Router history={history}>
+        <Route path="/" component={HomePage}/>
+    </Router>
 );
 
 // 4. Start
