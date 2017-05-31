@@ -1,0 +1,51 @@
+body {
+  font-family: sans-serif;
+  background-color: rgb(231, 231, 231);
+}
+
+
+
+.App-container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.App-filter {
+  margin-bottom: 20px;
+}
+
+
+.Logs-container {
+
+}
+
+.Logs-container .Logs-logItem {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 5px 10px rgb(193, 193, 193);
+}
+
+.Logs-container .Logs-logItem:last-child {
+  margin-bottom: 0;
+}
+
+.Logs-container .Logs-logPage {
+  border: 1px dashed silver;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.Logs-container .Logs-logError {
+  border: 1px solid red;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.Logs-container .Logs-logError:last-child {
+  margin-bottom: 0;
+}
