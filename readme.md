@@ -2,7 +2,7 @@
 
 View better formatted JS logs through Logentries API.
 
-![Logentries Viewer Screenshot](/jmas/logentries-viewer/raw/master/assets/screenshot.png)
+![Logentries Viewer Screenshot](https://github.com/jmas/logentries-viewer/raw/master/assets/screenshot.png)
 
 # Install
 
