@@ -2,10 +2,13 @@ export function setLS(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function getLS(key, usePrompt=false) {
-    let value = null;
+export function getLS(key, usePrompt=false, defaultValue=null) {
+    let value = defaultValue;
     try {
-        value = JSON.parse(localStorage.getItem(key));
+        const valueFromLS = localStorage.getItem(key);
+        if (valueFromLS !== null) {
+            value = JSON.parse(valueFromLS);
+        }
     } catch (e) {
         console.warn(e);
     }
