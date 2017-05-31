@@ -136,7 +136,7 @@ const HomePage = connect(({app}) => ({
     </div>
     <div className="Logs-container">
         {props.app.logsFormatted.map((logItem, k) => <div className={'Logs-logItem'} key={k}>
-            <strong>ID: {logItem.key}</strong>
+            <div className={'Logs-id'}><strong>ID: {logItem.key}</strong></div>
             {logItem.items.map((item, k) => <div className={'Logs-logWrap'} key={k}>{renderLog(item)}</div>)}
         </div>)}
     </div>
